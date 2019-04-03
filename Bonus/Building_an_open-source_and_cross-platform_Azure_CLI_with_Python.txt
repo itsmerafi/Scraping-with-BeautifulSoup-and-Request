@@ -1,0 +1,23 @@
+
+Building an open-source and cross-platform Azure CLI with Python
+
+            Written by Dan Taylor
+            on March 2019,
+            Microsoft
+
+Background
+Microsoft Azure is a cloud computing platform that spans over fifty data centers worldwide and offers hundreds of services. As a large cloud service, it is very important that customers have the best tools for deployment and management of their systems.
+Since the very beginning, we’ve offered a variety of tools and libraries for developers, administrators and architects to perform all kind of actions: from spinning up Virtual Machines in virtual networks to deploying Web Apps with PostgreSQL databases. One of the most popular tools of course is the Azure “az” command line interface. To build this open source tool, which includes thousands of commands as well as third-party extensions, we turned to Python.
+
+Why Python
+At the beginning, the Azure command line experience was available as a PowerShell module for Windows users, and as a Node.js-based CLI for everyone else, including users working with macOS and Linux. However, significant growth led to engineering complexity that became difficult to resolve.
+Switching to Python enabled us to produce one implementation that behaves the same across all platforms. Each command is a wrapper around one or more functions from the Azure SDK for Python, which ensures that developers can build scripts with identical functionality. And consistent command line conventions enable us to provide one set of instructions for all users.
+Because Python is easy to distribute for all our platforms, we can provide platform-specific packages that adhere to the correct conventions. On Windows, you can use a regular installer that includes all necessary components. On Linux, we offer packages in our repositories for many distributions, so for example users on Ubuntu can use apt-get; and on macOS we recommend Homebrew. Adhering to platform conventions gives our users confidence that the software is trustworthy, and Python provides the flexibility to provide it.
+Features of the Azure CLI
+Thanks to the flexibility of Python and the powerful ecosystem of packages, the Azure CLI supports features such as autocompletion (in shells that support it), persistent credentials, JMESPath result parsing, lazy initialization, network-less unit tests, and more.
+Much of this support has been abstracted into an open-source package called Knack, allowing us, or anyone else, to use it for their own command line tools.
+Specific to the Azure CLI, we have enabled extensions that can be installed using pip to allow the development of more complex tools, such as self-destruct mode, which allows any resource to be automatically deleted after a certain time using a simple command line argument. Being able to have an ecosystem of extensions empowers our users to develop workflows that fit their preferences.
+Because Azure supports several API versions simultaneously, as well as on-premises Azure Stack deployments, the Azure CLI has to be able to adapt its commands to whatever version is it connected to. Thanks to the composable architecture of the tool in Python, we can easily add or remove commands at runtime based on availability. The result is that users are not suggested to use invalid commands or arguments and can freely update the command line tool even when working against older deployments.
+Conclusion
+Microsoft Azure provides hundreds of services, each providing multiple compatibility versions and many commands. Exposing this complexity through a command-line tool that is responsive, helpful, and easy to use is a challenge.
+Developing the Azure CLI in Python enabled us to architect a tool that looks and feels native on all platforms, runs consistently everywhere, performs well enough for interactive use, supports powerful extensibility, and helps our customers be successful no matter what they intend to achieve.

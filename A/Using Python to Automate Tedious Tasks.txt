@@ -1,0 +1,17 @@
+
+Using Python to Automate Tedious Tasks
+
+            Written by Nat Dunn
+            on November 2018,
+            Webucator
+
+We began using Python at Webucator in 2015. As most of our larger programming projects have to do with building web-based applications and we had long ago decided on our web stack, we haven't needed Python for any large scale projects. However, we use it regularly to quickly solve problems and to automate manual tasks. In this article, I'll describe how we used Python to automate a problem that occurred infrequently, but was a huge nuisance when it did occur.
+As an IT training company, we write a lot of courseware with many code examples, which are both included in the class files and embedded in the course manual. To avoid having to maintain the code both in the file and the manual, our build system, which is XML-based, reads the class files into the manual. To make that work, we have to mark up each class file with XML before committing it. Here is a sample of a marked-up courseware file:
+
+The XML here is  simple. It includes a root element (cw:File) and a few emphasis elements (cw:Em). The build parses this XML and, using XSL:FO, pulls it into the manual to create  this:
+
+When this works as expected, it works beautifully. But sometimes an author will commit a file that isn't well-formed XML, which breaks the build. The person building the courseware is often not the same person as the person writing the courseware, so there can be a lag between the time the error occurs and the time it gets fixed. Furthermore, our home-grown build system doesn't handle the error well. Rather than reporting it, it spins and spins. (We need to fix that eventually, but for reasons not relevant to this article, that's not going to happen any time soon.) The person building the courseware then has to let the author know that one of the XML files is poorly formed, but she doesn't know which one. The author then has to check each XML file until he finds the one that is poorly formed. Done one file at a time with a tool like XMLSPY, this is a laborious process. Enter Python!
+The last time I had to go through this process, I realized that Python could solve this problem very quickly. The Python program simply has to loop through the directories finding all the files that need checking, based on their locations and extensions, check whether the file begins with "<cw:" as not all files are marked up as XML, and use lxml.etree to attempt to parse the file. On failure, it should report the file name. This program took less than 15 minutes to write and saved more than that the first time I used it. I've copied it below to show how simple it is:
+
+This is just one of many examples in which we use Python at Webucator to quickly and easily automate time-intensive, manual tasks.
+Webucator provides live online and customized onsite Python training.
