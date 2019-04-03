@@ -1,6 +1,0 @@
-
-Government
-
-Saving the world with Open Data and Python
-Frequentis TAPtools® - Python in Air Traffic Control
-

@@ -1,8 +1,0 @@
-
-Scientific
-
-Python for Collaborative Drug Discovery
-Python To Help Meteorologists
-Python for Scientific Data Visualization
-Simulating Biomolecules with Python
-
