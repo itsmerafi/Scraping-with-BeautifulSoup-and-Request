@@ -1,10 +1,9 @@
-from multiprocessing import Pool
+import numpy as np
+import multiprocessing as multi
 from bs4 import BeautifulSoup
 import requests
 import time
-import sys
-import os
-
+import sys , os
 
 # start = time.time()
 
@@ -32,22 +31,49 @@ def scrape(url):
     print (tittle)
     name = tittle + ".txt"
     with open("Bonus/" + name, "w") as file :
-    	file.write(str(content.text))
+        file.write(str(content.text))
 
-# define the name of the directory to be created
+
+
+def chunks(n, page_list):
+    """Splits the list into n chunks"""
+    return np.array_split(page_list,n)
+ 
 path = os.getcwd()  + '\Bonus' #windows '\', Linux '/'
 get_all_url()
 if not os.path.exists(path):
     os.mkdir(path)
 
-for url in all_urls:
-    scrape(url)
+cpus = multi.cpu_count()
+workers = []
+page_bins = chunks(cpus, all_urls)
+
+for cpu in range(cpus):
+    sys.stdout.write("CPU " + str(cpu) + "\n")
+    # Process that will send corresponding list of pages 
+    # to the function perform_extraction
+    worker = multi.Process(name=str(cpu), 
+                           target=scrape, 
+                           args=(page_bins[cpu],))
+    worker.start()
+    workers.append(worker)
+
+for worker in workers:
+    worker.join()
 
 print ('Sukses!')
-# p = Pool(10)
-# p.map(scrape, all_urls)
-# p.terminate()
-# p.join()
     
 
+
+
+# p.map(scrape, all_urls)
+
+
+# for url in all_urls:
+#     scrape(url)
+	
+#def get_url_per_category():
+
+# end = time.time()
+# print(end - start)
 
