@@ -1,9 +1,14 @@
 from bs4 import BeautifulSoup
-import requests
+import requests, os
 
 #Akses URL
 url = 'https://blog.python.org/'
 num = 10 #jumlah konten
+path = os.getcwd()  + '\B' #windows '\', Linux '/'
+
+if not os.path.exists(path):
+    os.mkdir(path)
+    
 while True :
 	req = requests.get(url)
 	soup = BeautifulSoup(req.text, "lxml")

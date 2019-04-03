@@ -42,6 +42,8 @@ if not os.path.exists(path):
 
 for url in all_urls:
     scrape(url)
+
+print ('Sukses!')
 # p = Pool(10)
 # p.map(scrape, all_urls)
 # p.terminate()
